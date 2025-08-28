@@ -35,3 +35,7 @@ logging>=0.7.0
 
 # Setup
 setuptools
+
+# Other
+wordcloud
+-e .
