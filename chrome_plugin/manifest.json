@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Youtube Comments Sentiment Analyzer",
+    "version": "1.0",
+    "description": "Analyzes the sentiment of YouTube comments and provides graphs.",
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "assets/yt-analyzer-icon-16.png",
+            "24": "assets/yt-analyzer-icon-24.png",
+            "32": "assets/yt-analyzer-icon-32.png"
+        }
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "scripting"],
+    "host_permissions": [
+        "http://localhost:5000/*",
+        "https://www.googleapis.com/*"
+    ]
+}

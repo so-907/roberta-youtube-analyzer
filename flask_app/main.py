@@ -12,6 +12,7 @@ import os
 from dotenv import load_dotenv
 import json
 from transformers import RobertaForSequenceClassification, AutoTokenizer, pipeline
+import pandas as pd
 
 
 app = Flask(__name__)
@@ -41,21 +42,25 @@ def model_download():
         model_path = artifact.download()
 
         # Load model
-        model = AutoModel.from_pretrained(model_path)
-        tokenizer = AutoTokenizer.from_pretrained(model_path)
+        model = RobertaForSequenceClassification.from_pretrained(model_path)
 
-        return model, tokenizer
+        # Change model labels
+        model.config.id2label = {0: "0", 1: "1", 2: "2"}
+        model.config.label2id = {"0": 0, "1": 1, "2": 2}
+
+        return model
 
     except Exception as e:
         raise
 
-
+load_dotenv()
 
 # Login to W&B
 login()
 
 # Initialize model and tokenizer
-model, tokenizer = model_download()
+model = model_download()
+tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 
 
 # URL triggers
@@ -86,11 +91,30 @@ def predict_with_timestamps():
             model=model,
             tokenizer=tokenizer,
             device=-1,
-            return_all_scores=True,
+            return_all_scores=False,
             )
 
+        # TODO: fix
+        # Testa con commenti ovviamente positivi/negativi:
+        extreme_test = [
+            "I absolutely love this amazing wonderful fantastic video!!!",
+            "This is the worst terrible horrible disgusting content ever created",
+            "This video is perfect and beautiful and makes me so happy"
+        ]
+
+        results = classifier(extreme_test)
+        for comment, result in zip(extreme_test, results):
+            print(f"Comment: {comment[:50]}...")
+            print(f"All scores: {result}")
+            predicted_class = result['label']
+            confidence = result['score']
+            print(f"Predicted: {predicted_class} (confidence: {confidence:.3f})")
+            print("---")
+
+
         # Extract sentiment label from predictions
-        preds = [dict["label"] for dict in classifier(comments)]
+        results = classifier(comments)
+        preds = [result["label"] for result in results]
         
 
     except Exception as e:
@@ -123,11 +147,12 @@ def predict():
             model=model,
             tokenizer=tokenizer,
             device=-1,
-            return_all_scores=True,
+            return_all_scores=False,
             )
 
         # Extract sentiment label from predictions
-        preds = [dict["label"] for dict in classifier(comments)]
+        results = classifier(comments)
+        preds = [result["label"] for result in results]
         
 
     except Exception as e:
@@ -150,7 +175,7 @@ def generate_chart():
             return jsonify({"error": "No sentiment counts were provided."}, status=400)
 
         # Prepare data
-        labels = ["Positive", "Neutral", "Negative"]
+        labels = ["Negative", "Neutral", "Positive"]
         counts = [
             int(sentiment_counts.get("0", 0)),
             int(sentiment_counts.get("1", 0)),
@@ -170,7 +195,7 @@ def generate_chart():
             colors=COLORS,
             autopct="%1.1f%%",
             shadow=True,
-            textprops=dict(color="w")
+            textprops=dict(color="#260D0E")
         )
         plt.axis("equal")
 
@@ -204,9 +229,9 @@ def generate_wordcloud():
         wordcloud = WordCloud(
             width=800,
             height=400,
-            backgroud_color=None,
+            background_color=None,
             mode="RGBA",
-            colormap="gist_yang",
+            colormap="gist_yarg",
             collocations=False
         ).generate(text)
 

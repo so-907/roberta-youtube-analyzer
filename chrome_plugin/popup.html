@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YT Comments Sentiment Analysis</title>
+        <style>
+            body {
+                font-family: "Brush Script MT", "Lucida Handwriting";
+                padding: 10px;
+                background-color: #F0E6D5;
+                color: #260D0E;
+                margin: 0;
+                box-sizing: border-box;
+                width: 600px;
+                height: 400px;
+            }
+            h1 {
+                font-size: 24px;
+                color: #B91D1D;
+                text-align: center;
+            }
+            .section {
+                margin-bottom: 25px;
+            }
+            .section-title {
+                font-weight: bold;
+                color: #C44A51;
+                margin-top: 15px;
+                font-size: 18px;
+            }
+            .comment-list {
+                list-style: none;
+                padding: 0;
+            }
+            .comment-item {
+                margin: 8px 0;
+                padding: 8px;
+                background-color: #D17378;
+                border-radius: 4px;
+            }
+            .comment-sentiment {
+                font-weight: bold;
+                color: #260D0E;
+            }
+            img {
+                width: 100%;
+                margin-top: 20px;
+            }
+            .metrics-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+            }
+            .metric {
+                width: 48%;
+                background-color: #D17378;
+                margin-bottom: 15px;
+                padding: 15px;
+                border-radius: 4px;
+                text-align: center;
+                box-sizing: border-box;
+            }
+            .metric-title {
+                font-size: 14px;
+                color: #B91D1D;
+            }
+            .metric-value {
+                font-size: 12px;
+                color: #260D0E;
+                margin-top: 5px;
+            }
+            p {
+                text-align: center;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>YT Sentiment Analysis</h1>
+        <div id="output" class="section"></div>
+        <script type="module" src="popup.js"></script>
+    </body>
+</html>
