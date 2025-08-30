@@ -18,7 +18,7 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app)
 
-COLORS = ["#D17378", "#C44A51", "#260D0E"]
+COLORS = ["#D17378", "#B6C8C7", "#C44A51"]
 
 
 def login():
@@ -301,7 +301,7 @@ def generate_trend_graph():
         plt.ylabel("Percentage of Comments (%)")
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%m-%Y"))
         plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=12))
-        plt.legend()
+        plt.legend(["Negative", "Neutral", "Positive"])
         plt.tight_layout()
 
         # Save as BytesIO object

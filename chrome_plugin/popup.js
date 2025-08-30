@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const avgSentimentScore = (totalSentimentScore / totalComments).toFixed(2);
 
         // Normalize the average sentiment score to a scale of 0 to 10
-        const normalizedSentimentScore = (((parseFloat(avgSentimentScore) + 1) / 2) * 10).toFixed(2);
+        const normalizedSentimentScore = (((parseFloat(avgSentimentScore)) / 2) * 10).toFixed(2);
 
         // Add the Comment Analysis Summary section
         outputDiv.innerHTML += `
